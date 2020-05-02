@@ -1178,8 +1178,6 @@ int uclogic_params_init(struct uclogic_params *params,
 		     USB_DEVICE_ID_UCLOGIC_UGEE_TABLET_45):
 	case VID_PID(USB_VENDOR_ID_UCLOGIC,
 		     USB_DEVICE_ID_UCLOGIC_UGEE_TABLET_47):
-	case VID_PID(USB_VENDOR_ID_VEIKK,
-		     USB_DEVICE_ID_VEIKK_A30):
 		rc = uclogic_params_huion_init(&p, hdev);
 		if (rc != 0)
 			goto cleanup;
@@ -1293,6 +1291,29 @@ int uclogic_params_init(struct uclogic_params *params,
 			uclogic_params_init_invalid(&p);
 		}
 
+		break;
+	case VID_PID(USB_VENDOR_ID_VEIKK,
+		     USB_DEVICE_ID_VEIKK_A30):
+		/* If this is the pen and frame interface */
+		hid_err(hdev, "testeroni heyoyoyoyo");
+		if (bInterfaceNumber == 1) {
+			/* Probe v1 pen parameters */
+			rc = uclogic_params_pen_init_v1(&p.pen, &found, hdev);
+			if (rc != 0) {
+				hid_err(hdev, "pen probing failed: %d\n", rc);
+				goto cleanup;
+			}
+			/* Initialize frame parameters */
+			rc = uclogic_params_frame_init_with_desc(
+				&p.frame_list[0],
+				uclogic_rdesc_xppen_deco01_frame_arr,
+				uclogic_rdesc_xppen_deco01_frame_size,
+				0);
+			if (rc != 0)
+				goto cleanup;
+		} else {
+			uclogic_params_init_invalid(&p);
+		}
 		break;
 	}
 
