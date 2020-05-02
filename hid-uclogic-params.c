@@ -1295,7 +1295,6 @@ int uclogic_params_init(struct uclogic_params *params,
 	case VID_PID(USB_VENDOR_ID_VEIKK,
 		     USB_DEVICE_ID_VEIKK_A30):
 		/* If this is the pen and frame interface */
-		hid_err(hdev, "testeroni heyoyoyoyo");
 		if (bInterfaceNumber == 1) {
 			/* Probe v1 pen parameters */
 			rc = uclogic_params_pen_init_v1(&p.pen, &found, hdev);
@@ -1313,6 +1312,18 @@ int uclogic_params_init(struct uclogic_params *params,
 				goto cleanup;
 		} else {
 			uclogic_params_init_invalid(&p);
+		}
+		if (bInterfaceNumber == 2) {
+			__u8 data1[] = {0x09,0x01,0x04,0x00,0x00,0x00,0x00,0x00};
+			__u8 data2[] = {0x09,0x02,0x02,0x00,0x00,0x00,0x00,0x00};
+			__u8 data3[] = {0x09,0x03,0x02,0x00,0x00,0x00,0x00,0x00};
+			int response = 0;
+			response = hid_input_report(hdev, HID_OUTPUT_REPORT, data1, 8, 1);
+			hid_err(hdev, "testeroni heyoyoyoyo %d", response);
+			response = hid_input_report(hdev, HID_OUTPUT_REPORT, data2, 8, 1);
+			hid_err(hdev, "testeroni heyoyoyoyo %d", response);
+			response = hid_input_report(hdev, HID_OUTPUT_REPORT, data3, 8, 1);
+			hid_err(hdev, "testeroni heyoyoyoyo %d", response);
 		}
 		break;
 	}
