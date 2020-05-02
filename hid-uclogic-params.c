@@ -1310,10 +1310,7 @@ int uclogic_params_init(struct uclogic_params *params,
 				0);
 			if (rc != 0)
 				goto cleanup;
-		} else {
-			uclogic_params_init_invalid(&p);
-		}
-		if (bInterfaceNumber == 2) {
+			}	else if (bInterfaceNumber == 2) {
 			__u8 data1[] = {0x09,0x01,0x04,0x00,0x00,0x00,0x00,0x00};
 			__u8 data2[] = {0x09,0x02,0x02,0x00,0x00,0x00,0x00,0x00};
 			__u8 data3[] = {0x09,0x03,0x02,0x00,0x00,0x00,0x00,0x00};
@@ -1324,10 +1321,11 @@ int uclogic_params_init(struct uclogic_params *params,
 			hid_err(hdev, "testeroni heyoyoyoyo %d", response);
 			response = hid_input_report(hdev, HID_OUTPUT_REPORT, data3, 8, 1);
 			hid_err(hdev, "testeroni heyoyoyoyo %d", response);
+		} else {
+			uclogic_params_init_invalid(&p);
 		}
 		break;
-	}
-
+}
 #undef VID_PID
 #undef WITH_OPT_DESC
 
