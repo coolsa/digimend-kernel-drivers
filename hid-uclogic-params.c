@@ -1315,11 +1315,11 @@ int uclogic_params_init(struct uclogic_params *params,
 			__u8 data2[] = {0x09,0x02,0x02,0x00,0x00,0x00,0x00,0x00};
 			__u8 data3[] = {0x09,0x03,0x02,0x00,0x00,0x00,0x00,0x00};
 			int response = 0;
-			response = hid_input_report(hdev, HID_OUTPUT_REPORT, data1, 8, 1);
+			response = hid_report_raw_event(hdev, HID_OUTPUT_REPORT, data1, 8, 1);
 			hid_err(hdev, "testeroni heyoyoyoyo %d", response);
-			response = hid_input_report(hdev, HID_OUTPUT_REPORT, data2, 8, 1);
+			response = hid_report_raw_event(hdev, HID_OUTPUT_REPORT, data2, 8, 1);
 			hid_err(hdev, "testeroni heyoyoyoyo %d", response);
-			response = hid_input_report(hdev, HID_OUTPUT_REPORT, data3, 8, 1);
+			response = hid_report_raw_event(hdev, HID_OUTPUT_REPORT, data3, 8, 1);
 			hid_err(hdev, "testeroni heyoyoyoyo %d", response);
 		} else {
 			uclogic_params_init_invalid(&p);
