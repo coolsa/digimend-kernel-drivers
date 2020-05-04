@@ -1308,18 +1308,23 @@ int uclogic_params_init(struct uclogic_params *params,
 				uclogic_rdesc_xppen_deco01_frame_arr,
 				uclogic_rdesc_xppen_deco01_frame_size,
 				0);
-			if (rc != 0)
-				goto cleanup;
-			}	else if (bInterfaceNumber == 2) {
 			__u8 data1[] = {0x09,0x01,0x04,0x00,0x00,0x00,0x00,0x00};
-			__u8 data2[] = {0x09,0x02,0x02,0x00,0x00,0x00,0x00,0x00};
-			__u8 data3[] = {0x09,0x03,0x02,0x00,0x00,0x00,0x00,0x00};
 			int response = 0;
 			int length_sent;
 			response = usb_interrupt_msg(udev, usb_sndintpipe(udev,0x03),data1,8,&length_sent,USB_CTRL_SET_TIMEOUT);
 			hid_err(hdev, "testeroni heyoyoyoyo %d", response);
+			if (rc != 0)
+				goto cleanup;
+			}	else if (bInterfaceNumber == 2) {
+			__u8 data2[] = {0x09,0x02,0x02,0x00,0x00,0x00,0x00,0x00};
+			int response = 0;
+			int length_sent;
 			response = usb_interrupt_msg(udev, usb_sndintpipe(udev,0x03),data2,8,&length_sent,USB_CTRL_SET_TIMEOUT);
 			hid_err(hdev, "testeroni heyoyoyoyo %d", response);
+		} else if (bInterfaceNumber == 3) {
+			__u8 data3[] = {0x09,0x03,0x02,0x00,0x00,0x00,0x00,0x00};
+			int response = 0;
+			int length_sent;
 			response = usb_interrupt_msg(udev, usb_sndintpipe(udev,0x03),data3,8,&length_sent,USB_CTRL_SET_TIMEOUT);
 			hid_err(hdev, "testeroni heyoyoyoyo %d", response);
 		} else {
